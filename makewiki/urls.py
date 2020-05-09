@@ -23,9 +23,8 @@ CHALLENGES:
     2. Make sure Django doesn't give you any warnings or errors when you execute `python manage.py runserver`.
 """
 urlpatterns = [
-    # Admin Site
+    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
-
-    # Wiki App
     path('', include('wiki.urls')),
+    path('accounts/',include('accounts.urls'))
 ]
