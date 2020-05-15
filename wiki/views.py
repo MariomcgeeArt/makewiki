@@ -19,6 +19,12 @@ class PageListView(ListView):
           'pages': pages
         })
 
+
+
+
+
+
+
 class PageDetailView(DetailView):
     """ Renders a specific page based on it's slug."""
     model = Page
@@ -26,9 +32,34 @@ class PageDetailView(DetailView):
     def get(self, request, slug):
         """ Returns a specific wiki page by slug. """
         page = self.get_queryset().get(slug__iexact=slug)
+        form = PageForm()
+        
         return render(request, 'page.html', {
-          'page': page
+          'page': page,
+          'form': form
         })
+
+    def post(self, request,slug):
+      form = PageForm(request.POST)
+      page = self.get_queryset().get(slug__iexact=slug) 
+      if form.is_valid:
+        page.title= request.POST['title']
+        page.content= request.POST['content']
+        page.author = request.user
+        
+        page.save()
+        return HttpResponseRedirect(
+            reverse('wiki-details-page', args=[page.slug]))
+      # else if form is not valid
+      return render(request, 'wiki-details-page', { 'form': form })
+
+ 
+
+
+
+
+
+
 
 
 
