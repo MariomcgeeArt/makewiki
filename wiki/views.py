@@ -56,14 +56,6 @@ class PageDetailView(DetailView):
  
 
 
-
-
-
-
-
-
-
-
 class PageCreateView(CreateView):
     def get(self, request):
         context = {
